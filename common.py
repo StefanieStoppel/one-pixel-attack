@@ -38,5 +38,5 @@ def get_probability_for_class(predictions, class_name):
     for cls in predictions:
         if str(cls[1]) == class_name:
             return float(cls[2])
-    print "Class not found in predictions"
+    print("Class not found in predictions")
     embed()

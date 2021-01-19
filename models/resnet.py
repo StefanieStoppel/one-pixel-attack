@@ -17,7 +17,7 @@ class ResNet(object):
 
         self.model = load_model(self.model_filename)
         self.param_count = self.model.count_params()
-        print "Successfully loaded {}".format(self.name)
+        print("Successfully loaded {}".format(self.name))
 
     def preprocess_input(self, imgs):
         if imgs.ndim < 4:

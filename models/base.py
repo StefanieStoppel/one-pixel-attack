@@ -5,7 +5,7 @@ from models.xception import Xception_wrapper
 
 
 def get_model_from_name(model_name):
-    print "Using model {}".format(model_name)
+    print("Using model {}".format(model_name))
     if model_name.lower() == "vgg16":
         return Vgg16_wrapper()
     elif model_name.lower() == "xception":
