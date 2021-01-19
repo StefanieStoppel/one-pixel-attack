@@ -66,7 +66,7 @@ def find_adversary_image(image, model):
                                         perturbed_predictions,
                                         perturbed_predictions_children,
                                         true_class=true_label)
-    embed()
+    # embed()
 
 
 if __name__ == "__main__":

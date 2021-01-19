@@ -31,32 +31,37 @@ def init_population(config):
     return np.array(initial_population)
 
 
-def gen_children(fathers, config):
+def sample_random_parent_indices(parents):
+    r1 = random.randint(0, parents.shape[0] - 1)
+    r2 = random.randint(0, parents.shape[0] - 1)
+    while r2 == r1:
+        r2 = random.randint(0, parents.shape[0] - 1)
+    r3 = random.randint(0, parents.shape[0] - 1)
+    while r3 == r2 or r3 == r1:
+        r3 = random.randint(0, parents.shape[0] - 1)
+    return r1, r2, r3
+
+
+def gen_children(parents, config):
     """
 
     Args:
-        fathers (numpy.ndarray): A tuple is of size 5 containing x, y, r, g, b
+        parents (numpy.ndarray): A tuple is of size 5 containing x, y, r, g, b
 
     Returns:
         numpy.ndarray: new generation population
 
     """
     children = list()
-    for candidate in fathers:
-        r1 = random.randint(0, fathers.shape[0] - 1)
-        r2 = random.randint(0, fathers.shape[0] - 1)
-        while r2 == r1:
-            r2 = random.randint(0, fathers.shape[0] - 1)
-        r3 = random.randint(0, fathers.shape[0] - 1)
-        while r3 == r2 or r3 == r1:
-            r3 = random.randint(0, fathers.shape[0] - 1)
-        new_candidate = fathers[r1] + config["scale_factor"] * (fathers[r2] + fathers[r3])
-        for i in range(new_candidate.shape[0]):
-            new_candidate[i][0] %= config["img_x"]
-            new_candidate[i][1] %= config["img_y"]
-            new_candidate[i][2] %= 256
-            new_candidate[i][3] %= 256
-            new_candidate[i][4] %= 256
+    for parent in parents:
+        r1, r2, r3 = sample_random_parent_indices(parents)
+        new_candidate = parents[r1] + config["scale_factor"] * (parents[r2] + parents[r3])
+        #for i in range(new_candidate.shape[0]):
+        new_candidate[0][0] = int(new_candidate[0][0] % config["img_x"])
+        new_candidate[0][1] = int(new_candidate[0][1] % config["img_y"])
+        new_candidate[0][2] %= 256
+        new_candidate[0][3] %= 256
+        new_candidate[0][4] %= 256
         children.append(new_candidate)
 
     return np.array(children)
