@@ -6,15 +6,13 @@ import numpy as np
 import yaml
 from IPython import embed
 
-from common import get_image_array, get_probability_for_class, get_perturbed_images
+from common import get_image_array, get_probability_for_class, get_perturbed_images, setup_logging
 from differential_evolution import init_population, gen_children
 from models.base import get_model_from_name
 
 CONFIG = None
-logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S')
+_logger = logging.getLogger(__name__)
+
 
 
 def fitness_function(prediction, target_class):
@@ -76,7 +74,11 @@ if __name__ == "__main__":
     parser.add_argument('--config', '-c', dest='config_file', help='config file')
     parser.add_argument('--input', '-i', dest='input_image', help='input image file')
     parser.add_argument('--target', '-t', dest='target_class', help='target class name')
+    parser.add_argument('--loglevel', '-l', dest='log_level',
+                        help='set log level, default: logging.INFO', default=logging.INFO)
     args = parser.parse_args()
+
+    setup_logging(args.log_level)
 
     CONFIG = yaml.safe_load(open(args.config_file))
     model = get_model_from_name(CONFIG["model"])
