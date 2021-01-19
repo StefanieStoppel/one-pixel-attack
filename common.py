@@ -1,6 +1,14 @@
+import logging
+import sys
+
 import numpy as np
 from IPython import embed
 from keras.preprocessing.image import load_img, img_to_array
+
+
+def setup_logging(log_level):
+    log_format = '[%(asctime)s] %(levelname)s:%(name)s:%(message)s'
+    logging.basicConfig(format=log_format, stream=sys.stdout, level=log_level, datefmt="%Y-%m-%d %H:%M:%S")
 
 
 def get_image_array(fname, config):
